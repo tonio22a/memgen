@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+  >
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../static/css/style.css">
+  <title>Генератор мемов</title>
+</head>
+<body>
+  <header class="header">
+    <img src="../static/img/logo.svg" alt="logo" width="50" height="50">
+    <ul class="main-list">
+        <li class="list__item">
+          <a href="">Главная</a>
+        </li>
+        <li class="list__item">
+          <a href="">Коллекция</a>
+        </li>
+        <li class="list__item">
+          <a href="">Связь</a>
+        </li>
+    </ul>
+  </header>
+  <main>
+    {% block content %}
+    <div class="form-block">
+      <h1>Сгенерируй свой мем!</h1>
+      <form method="POST" action="{{ url_for('index') }}">
+        <ul class="form-list">
+          <li class="form-list_item">
+            <label for="image-selector">Выбери мем</label>
+            <select name="image-selector" id="image-selector">
+              <option value="logo.svg" {% if selected_image == 'logo.svg' %}selected{% endif %}>Выбери мем</option>
+              <option value="meme_1.jpg" {% if selected_image == 'meme_1.jpg' %}selected{% endif %}>Девочка и пожар</option>
+              <option value="meme_2.jpg" {% if selected_image == 'meme_2.jpg' %}selected{% endif %}>Две кнопки</option>
+              <option value="mmm.jpg" {% if selected_image == 'mmm.jpg' %}selected{% endif %}>Поцелуй</option>
+              <option value="nosee.jpg" {% if selected_image == 'nosee.jpg' %}selected{% endif %}>Красивый текст</option>
+              <option value="china.jpg" {% if selected_image == 'china.jpg' %}selected{% endif %}>Привлекательный кот</option>
+            </select>
+          </li>
+          <li class="form-list_item">
+            <label for="textTop">Введите текст сверху</label>
+            <input class="input_text" type="text" placeholder="Введите текст" name="textTop">
+          </li>
+          <li class="form-list_item">
+            <label for="textBottom">Введите текст снизу</label>
+            <input class="input_text" type="text" placeholder="Введите текст" name="textBottom">
+          </li>
+          <li class="form-list_item">
+            <label for="color-selector">Цвет текста</label>
+            <select name="color-selector" id="color-selector">
+              <option value="white" {% if selected_color == 'white' %}selected{% endif %}>⬜</option>
+              <option value="black" {% if selected_color == 'black' %}selected{% endif %}>⬛</option>
+              <option value="red" {% if selected_color == 'red' %}selected{% endif %}>🟥</option>
+              <option value="blue" {% if selected_color == 'blue' %}selected{% endif %}>🟦</option>
+            </select>
+          </li>
+          <li class="form-list_item">
+            <label for="textTop_y">Введите расположение верхнего текста по Y</label>
+            <input class="input_text" id="textTop_y" type="text" placeholder="Введите текст" name="textTop_y">
+          </li>
+          <li class="form-list_item">
+            <label for="textBottom_y">Введите расположение нижнего текста по Y</label>
+            <input class="input_text" id="textBottom_y" type="text" placeholder="Введите текст" name="textBottom_y">
+          </li>
+          <button type="submit">Выбрать</button>
+        </ul>
+      </form>
+    </div>
+    <div class="meme-block" id="memeBlock">
+      <p class="text_top" style="color: {{ selected_color }}; top: {{ text_top_y }}px;">
+        {{ text_top }}
+      </p>
+      
+      <img class="meme" src="{{ url_for('serve_images', path=selected_image) }}" alt="{{ selected_image }}">
+
+      <p class="text_bottom" style="color: {{ selected_color }}; bottom: {{ text_bottom_y }}px;">
+        {{ text_bottom }}
+      </p>
+    </div>
+    {% endblock %}
+  </main>
+  <footer></footer>
+</body>
+</html>
